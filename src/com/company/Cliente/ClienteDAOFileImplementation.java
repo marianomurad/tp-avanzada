@@ -1,6 +1,6 @@
 package com.company.Cliente;
 
-import com.company.Util.FilesManager;
+import com.company.Util.txtPersistance.FilesManager;
 
 public class ClienteDAOFileImplementation implements ClienteDAO {
 

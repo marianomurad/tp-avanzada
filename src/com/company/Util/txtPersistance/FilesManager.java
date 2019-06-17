@@ -1,4 +1,4 @@
-package com.company.Util;
+package com.company.Util.txtPersistance;
 
 import com.company.Aeropuerto.Aeropuerto;
 import com.company.Aeropuerto.ListaAeropuerto;
@@ -9,49 +9,59 @@ import com.company.Cliente.Direccion.Provincia.Provincia;
 import com.company.Cliente.Pasaporte.Pasaporte;
 import com.company.Cliente.Telefono.Telefono;
 import com.company.Cliente.ViajeroFrecuente.ViajeroFrecuente;
+import com.company.LineaAerea.LineaAerea;
+import com.company.OptionsList.OptionsList;
+import com.company.Venta.Venta;
+import com.company.Vuelo.Vuelo;
 
 import java.io.*;
+import java.util.Date;
+
+import static java.lang.Integer.parseInt;
 
 public class FilesManager {
 
     private String rutaClientes = "Clientes.txt";
     private String rutaAeropuerto = "Aeropuertos.txt";
     private String rutaTempClientes = "ClienteTemp.txt";
+    private String rutaTempVentas = "VentasTemp.txt";
     private String rutaPaises = "Paises.txt";
     private String rutaProvincias = "Provincias.txt";
     private String rutaPlanes = "Planes.txt";
+    private String rutaVentas = "Ventas.txt";
+    private String rutaVuelos = "Vuelos.txt";
+    private String rutaAerolineas = "Aerolineas.txt";
+    private String rutaLineaAerea = "LineaAerea.txt";
     private BufferedReader br;
     private BufferedWriter bw;
 
     public FilesManager(){
 
-//Creacion de Archivos
-
-        File fCli = new File(this.rutaClientes);
-        if (!fCli.exists()){
-            try{
-                fCli.createNewFile();
-            }
-            catch (Exception e){
-                System.out.print(e.getMessage());
-            }
-        }
-
-        File fPlan = new File(this.rutaPlanes);
-        if (!fPlan.exists()){
-            try{
-                fPlan.createNewFile();
-            }
-            catch (Exception e){
-            }
-        }
+      //Creacion de Archivos
+        getOrCreate(rutaClientes);
+        getOrCreate(rutaAeropuerto);
+        getOrCreate(rutaVuelos);
+        getOrCreate(rutaVentas);
+        getOrCreate(rutaProvincias);
+        getOrCreate(rutaPaises);
+        getOrCreate(rutaPlanes);
+        getOrCreate(rutaAerolineas);
+        getOrCreate(rutaLineaAerea);
 
     }
 
+    private void getOrCreate(String route) {
+        File file = new File(route);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (Exception e) {
+                System.out.print(e.getMessage());
+            }
+        }
+    }
 
     //Clientes
-    //Save new Cliente on .txt file
-
     public Cliente getCliente(String dni){ //Busco por dni en el archivo y devuelvo el Cliente.
         String linea;
         boolean band = false;
@@ -65,7 +75,7 @@ public class FilesManager {
         return(this.decodeCliente(linea));
     }
 
-    //util method for Cliente Object
+    //util methods for Cliente Object
     private String encodeCliente(Cliente Cli){ //Aca paso el ClienteDTO a la cadena de string para guardar en archivo.
         String txt = Cli.getNombreYApellido()+";"+Cli.getDni()+";"+Cli.getPasaporte().getNumPasaporte()+";"+Cli.getPasaporte().getPaisEmision()+";"+Cli.getPasaporte().getAutoridadEmision()+";"+Cli.getPasaporte().getFechaEmision()+";"+";"+Cli.getPasaporte().getFechaVencimiento()
                 +";"+Cli.getCuit()+";"+Cli.getFechaNac()+";"+Cli.getEmail()+";"+
@@ -138,6 +148,7 @@ public class FilesManager {
         deleteCliente(cliente.getDni());
         return saveCliente(cliente);
     }
+
     private void closeAll(FileReader fr, PrintWriter pw) throws IOException {
         pw.close();
         fr.close();
@@ -145,6 +156,7 @@ public class FilesManager {
     }
 
 
+    //PAIS
     private Pais getPais(String nombre){
         String linea;
         boolean band = false;
@@ -159,6 +171,7 @@ public class FilesManager {
         return new Pais(linea);
     }
 
+    //PROVINCIA
     private Provincia getProvincia(String nombre){
         String linea;
         boolean band = false;
@@ -174,9 +187,9 @@ public class FilesManager {
     }
 
     //util method to get any type of object from .txt file
-    private String getThing(String nombre, boolean band, File filePais) throws IOException {
+    private String getThing(String nombre, boolean band, File file) throws IOException {
         String linea;
-        FileReader fileReader = new FileReader(filePais);
+        FileReader fileReader = new FileReader(file);
         br = new BufferedReader(fileReader);
         while(((linea = br.readLine())!= null) && (!band)) {
             if (linea.split(";")[1].equalsIgnoreCase(nombre)) {
@@ -188,6 +201,7 @@ public class FilesManager {
         br.close();
         return linea;
     }
+
 
     //Aeropuertos
 
@@ -221,4 +235,169 @@ public class FilesManager {
         return ap;
     }
 
+
+    //Para list of options to use
+    public OptionsList getOptionsList (String pathArchivo){//Recorro el archivo y devuelvo una lista.
+        OptionsList optionsList = new OptionsList();
+        File f = new File(pathArchivo);
+        String linea;
+        if (f.exists()){
+            try{
+                FileReader fr = new FileReader(f);
+                br = new BufferedReader(fr);
+                while((linea = br.readLine())!= null){
+                    optionsList.loadLine(linea);
+                }
+                fr.close();
+                br.close();
+            }
+            catch (Exception e){
+
+                return null;
+            }
+
+        }
+        return optionsList;
+    }
+
+
+    //VUELO
+    private Vuelo getVuelo(String nroVuelo) {
+        String linea;
+        boolean band = false;
+        try{
+            File file = new File(this.rutaVuelos);
+            linea = getThing(nroVuelo, band, file);
+        }
+        catch (Exception e){
+            return null;
+        }
+        return(this.decodeVuelo(linea));
+    }
+
+    private Vuelo decodeVuelo(String linea) {
+        String[] parts = linea.split(";");
+        ListaAeropuerto listaAeropuerto = new ListaAeropuerto();
+        Aeropuerto aeropuertoSalida  = listaAeropuerto.buscarAeropuerto(parts[3]);
+        Aeropuerto aeropuertoLlegada = listaAeropuerto.buscarAeropuerto(parts[4]);
+        Date fechaSalida = new Date(parseInt(parts[5]));
+        Date fechaLlegada = new Date(parseInt(parts[6]));
+
+        Vuelo vuelo = new Vuelo(parts[0],parseInt(parts[1]),parseInt(parts[2]),aeropuertoSalida,aeropuertoLlegada,fechaSalida,fechaLlegada,parts[7]);
+        return vuelo;
+    }
+
+    //LINEA AEREA / AEROLINEA
+    private LineaAerea getLineaAerea(String nombre) {
+        String linea;
+        boolean band = false;
+        try{
+            File file = new File(this.rutaLineaAerea);
+            linea = getThing(nombre, band, file);
+        }
+        catch (Exception e){
+            return null;
+        }
+        return(this.decodeLineaAerea(linea));
+    }
+
+    private LineaAerea decodeLineaAerea(String linea) {
+        String[] partes = linea.split(";");
+        String nombre = partes[0];
+        String alianza = partes[1];
+        Vuelo vuelo = getVuelo(partes[2]);
+
+
+        LineaAerea lineaAerea = new LineaAerea(nombre,alianza,vuelo);
+        return lineaAerea;
+    }
+
+
+    //VENTA
+    public Venta getVenta(String nroVenta) {
+        String linea;
+        boolean band = false;
+        try{
+            File fCli = new File(this.rutaClientes);
+            linea = getThing(nroVenta, band, fCli);
+        }
+        catch (Exception e){
+            return null;
+        }
+        return(this.decodeVenta(linea));    }
+
+    //util methods for Venta Object
+    private Venta decodeVenta(String linea) {
+        String[] partes = linea.split(";");
+        String nroTicket = partes[0];
+        Cliente cliente = decodeCliente(partes[1]);
+        Vuelo vuelo = getVuelo(partes[2]);
+        LineaAerea  lineaAerea  = getLineaAerea(partes[3]);
+        Date fechaVenta = new Date(parseInt(partes[4]));
+        String formaPago = partes[5];
+
+
+        Venta venta = new Venta(nroTicket,cliente,vuelo,lineaAerea,fechaVenta,formaPago);
+
+        return venta;    }
+
+    private String encodeVenta(Venta venta) {
+
+        String txt = venta.getNumeroTicket()+";"+venta.getCliente()+";"+venta.getVuelo()+";"+
+                venta.getLineaAerea()+";"+venta.getFechaVenta()+";"+venta.getFormaPago()+"\n";
+
+        return txt;
+    }
+
+    //CRUD 4 VENTA
+    public boolean saveVenta(Venta venta) {
+        try{
+            File fCli = new File(this.rutaVentas);
+            FileWriter fw = new FileWriter(fCli, true);
+            bw = new BufferedWriter(fw);
+            bw.write(this.encodeVenta(venta));
+            bw.newLine();
+            bw.close();
+            fw.close();
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean deleteVenta(String nroVenta) {
+        String linea;
+        try{
+            File fVenta = new File(this.rutaVentas);
+            File ftmpVenta = new File(this.rutaTempVentas);
+            FileReader fr = new FileReader(fVenta);
+            PrintWriter pw = new PrintWriter(new FileWriter(ftmpVenta));
+            br = new BufferedReader(fr);
+            while((linea = br.readLine())!= null){
+                // guardo en la lista todos, menos el cliente a eliminar.
+                if (!linea.split(";")[1].equalsIgnoreCase(nroVenta)){
+
+                    pw.println(linea);
+                    pw.flush();}
+
+            }
+            closeAll(fr, pw);
+            try{
+                ftmpVenta.renameTo(fVenta); //Renombro el nuevo archivo como el original.
+            }catch (Exception e) {
+                System.out.println(e.getMessage());
+                return false;
+            }
+            return fVenta.delete();
+        }
+        catch (Exception e){
+            System.out.print(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateVenta(Venta venta) {
+            deleteVenta(venta.getNumeroTicket());
+            return saveVenta(venta);
+    }
 }
