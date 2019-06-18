@@ -30,7 +30,6 @@ public class FilesManager {
     private String rutaPlanes = "Planes.txt";
     private String rutaVentas = "Ventas.txt";
     private String rutaVuelos = "Vuelos.txt";
-    private String rutaAerolineas = "Aerolineas.txt";
     private String rutaLineaAerea = "LineaAerea.txt";
     private BufferedReader br;
     private BufferedWriter bw;
@@ -45,7 +44,6 @@ public class FilesManager {
         getOrCreate(rutaProvincias);
         getOrCreate(rutaPaises);
         getOrCreate(rutaPlanes);
-        getOrCreate(rutaAerolineas);
         getOrCreate(rutaLineaAerea);
 
     }
@@ -89,13 +87,17 @@ public class FilesManager {
     private Cliente decodeCliente(String txt){//Recibo la cadena de string del archivo y devuelvo un ClienteDTO (previamente armo los atributos compuestos).
 
         String[] partes = txt.split(";");
-
-        Pasaporte Pas = new Pasaporte(partes[2], partes[3], partes[4], partes[5], partes[6]);
+        Pais pais = new Pais(partes[3]);
+        Date emision = new Date(parseInt(partes[5]));
+        Date vencimiento = new Date(parseInt(partes[6]));
+        Pasaporte Pas = new Pasaporte(partes[2],pais, partes[4], emision, vencimiento);
         Telefono tel = new Telefono(partes[10], partes[11], partes[12]);
-        ViajeroFrecuente viajeroFrecuente = new ViajeroFrecuente(partes[13], partes[14], partes[15],partes[16]);
+        LineaAerea lineaAerea = new LineaAerea(partes[14],"OneWorld");
+        ViajeroFrecuente viajeroFrecuente = new ViajeroFrecuente(partes[13], lineaAerea, partes[15],partes[16]);
         Direccion dir = new Direccion(partes[17],partes[18],partes[19],getProvincia(partes[20]),getPais(partes[21]),partes[22]);
 
-        Cliente Cli = new Cliente(partes[0], partes[1],Pas, partes[7],partes[8],partes[9],tel,viajeroFrecuente,dir);
+        Date nacimiento = new Date(parseInt(partes[8]));
+        Cliente Cli = new Cliente(partes[0], partes[1],Pas, partes[7],nacimiento,partes[9],tel,viajeroFrecuente,dir);
         return Cli;
     }
 
@@ -235,6 +237,11 @@ public class FilesManager {
         return ap;
     }
 
+    private String encodeAeropuerto(Aeropuerto aeropuerto) {
+        String txt = aeropuerto.getNombre()+";"+aeropuerto.getIdentif()+";"+aeropuerto.getCiudad()+";"+
+                aeropuerto.getProvincia()+";"+aeropuerto.getPais()+"\n";
+        return txt;
+    }
 
     //Para list of options to use
     public OptionsList getOptionsList (String pathArchivo){//Recorro el archivo y devuelvo una lista.
@@ -282,8 +289,9 @@ public class FilesManager {
         Aeropuerto aeropuertoLlegada = listaAeropuerto.buscarAeropuerto(parts[4]);
         Date fechaSalida = new Date(parseInt(parts[5]));
         Date fechaLlegada = new Date(parseInt(parts[6]));
+        int tiempoVuelo = parseInt(parts[7]);
 
-        Vuelo vuelo = new Vuelo(parts[0],parseInt(parts[1]),parseInt(parts[2]),aeropuertoSalida,aeropuertoLlegada,fechaSalida,fechaLlegada,parts[7]);
+        Vuelo vuelo = new Vuelo(parts[0],parseInt(parts[1]),parseInt(parts[2]),aeropuertoSalida,aeropuertoLlegada,fechaSalida,fechaLlegada,tiempoVuelo);
         return vuelo;
     }
 
@@ -308,7 +316,8 @@ public class FilesManager {
         Vuelo vuelo = getVuelo(partes[2]);
 
 
-        LineaAerea lineaAerea = new LineaAerea(nombre,alianza,vuelo);
+        LineaAerea lineaAerea = new LineaAerea(nombre,alianza);
+        lineaAerea.setVuelo(vuelo);
         return lineaAerea;
     }
 
@@ -400,4 +409,93 @@ public class FilesManager {
             deleteVenta(venta.getNumeroTicket());
             return saveVenta(venta);
     }
+
+    public boolean saveProvincia(Provincia provincia) {
+        try{
+            File file = new File(this.rutaProvincias);
+            FileWriter fw = new FileWriter(file, true);
+            bw = new BufferedWriter(fw);
+            bw.write(provincia.getNombre());
+            bw.newLine();
+            bw.close();
+            fw.close();
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+
+    }
+
+    public boolean savePais(Pais pais) {
+
+        try{
+            File file = new File(this.rutaPaises);
+            FileWriter fw = new FileWriter(file, true);
+            bw = new BufferedWriter(fw);
+            bw.write(pais.getNombre());
+            bw.newLine();
+            bw.close();
+            fw.close();
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean saveVuelo(Vuelo vuelo) {
+        try{
+            File file = new File(this.rutaVuelos);
+            FileWriter fw = new FileWriter(file, true);
+            bw = new BufferedWriter(fw);
+            bw.write(encodeVuelo(vuelo));
+            bw.newLine();
+            bw.close();
+            fw.close();
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    private String encodeVuelo(Vuelo vuelo) {
+            String txt = vuelo.getNroVuelo()+";"+
+                         vuelo.getAeropuertoLleg()+";"+vuelo.getAeropuertoSal()+";"+
+                         vuelo.getCantAsientos()+";"+vuelo.getCantAsientoDisp()+";"+
+                         vuelo.getFechaLlegada()+";"+vuelo.getFechaSalida()+";"+
+                         vuelo.getTiempoVuelo()+"\n";
+            return txt;
+    }
+
+    public boolean saveLineaAerea(LineaAerea lineaAerea) {
+        try{
+            File file = new File(this.rutaLineaAerea);
+            FileWriter fw = new FileWriter(file, true);
+            bw = new BufferedWriter(fw);
+            bw.write(lineaAerea.getAerolinea());
+            bw.write(lineaAerea.getAlianza());
+            if(lineaAerea.getVuelo() != null)
+            bw.write(encodeVuelo(lineaAerea.getVuelo()));
+            bw.newLine();
+            bw.close();
+            fw.close();
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean saveAeropuerto(Aeropuerto aeropuerto) {
+        try{
+            File file = new File(this.rutaAeropuerto);
+            FileWriter fw = new FileWriter(file, true);
+            bw = new BufferedWriter(fw);
+            bw.write(encodeAeropuerto(aeropuerto));
+            bw.newLine();
+            bw.close();
+            fw.close();
+        } catch (Exception e){
+            return false;
+        }
+        return true;    }
+
 }

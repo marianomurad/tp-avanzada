@@ -16,28 +16,34 @@ import com.company.Cliente.Pasaporte.Pasaporte;
 import com.company.Cliente.Telefono.Telefono;
 import com.company.Cliente.ViajeroFrecuente.ViajeroFrecuente;
 import com.company.Factory.FactoryDAO;
+import com.company.LineaAerea.LineaAerea;
 import com.company.OptionsList.OptionsList;
 import com.company.OptionsList.OptionsListDAO;
 import GUI.Panels.Cliente.PanelAltaCliente;
 import com.company.Venta.Venta;
 import com.company.Venta.VentaDAO;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 
 
 public class Manager {
     //---------------------------------------AltaClientes------------------------------------------------------------------------
-    public static boolean persistCliente(){
+    public static boolean persistCliente() throws ParseException {
 
         ClienteDAO dao = FactoryDAO.getClienteFactory(FactoryDAO.FILE);
 
         //pasaporte
         String txtNumeroDePasaporte = PanelAltaCliente.txtNumeroDePasaporte.getText();
-        String paisDeEmision =  (String)PanelAltaCliente.cbxPaisDeEmision.getSelectedItem();
+        Pais paisDeEmision =  (Pais)PanelAltaCliente.cbxPaisDeEmision.getSelectedItem();
         String autoridadDeEmision = PanelAltaCliente.txtAutoridadDeEmision.getText();
         String fechaDeEmision = PanelAltaCliente.txtFechaDeEmision.getText();
+        Date dateFechaEmision = new SimpleDateFormat("dd/MM/yyyy").parse(fechaDeEmision);
         String fechaDeVencimiento = PanelAltaCliente.txtFechaDeVencimiento.getText();
-        Pasaporte pasaporte = new Pasaporte(txtNumeroDePasaporte,paisDeEmision,autoridadDeEmision,fechaDeEmision,fechaDeVencimiento);
+        Date dateFechaVencimiento = new SimpleDateFormat("dd/MM/yyyy").parse(fechaDeVencimiento);
+        Pasaporte pasaporte = new Pasaporte(txtNumeroDePasaporte,paisDeEmision,autoridadDeEmision,dateFechaEmision,dateFechaVencimiento);
 
         //telefono
         String numeroPersonal = PanelAltaCliente.txtNumeroPersonal.getText();
@@ -48,7 +54,7 @@ public class Manager {
 
         //viajero frecuente
         String alianza =  (String)PanelAltaCliente.cbxAlianza.getSelectedItem();
-        String aerolinea =  (String)PanelAltaCliente.cbxAerolinea.getSelectedItem();
+        LineaAerea aerolinea =  (LineaAerea)PanelAltaCliente.cbxAerolinea.getSelectedItem();
         String numeroViajeroFrecuente = PanelAltaCliente.txtViajeroFrecuente.getText();
         String categoria = PanelAltaCliente.txtCategoria.getText();
         ViajeroFrecuente viajeroFrecuente = new ViajeroFrecuente(alianza,aerolinea,numeroViajeroFrecuente,categoria);
@@ -70,10 +76,11 @@ public class Manager {
         String dni = PanelAltaCliente.txtDni.getText();
         String cuit = PanelAltaCliente.txtCuit.getText();
         String fechaDeNacimiento = PanelAltaCliente.txtFechaDeNacimiento.getText();
+        Date dateFechaNacimiento = new SimpleDateFormat("dd/MM/yyyy").parse(fechaDeNacimiento);
         String email = PanelAltaCliente.txtEmail.getText();
 
 
-        return dao.saveCliente(new Cliente(nombreyApellido,dni,pasaporte,cuit,fechaDeNacimiento,email,telefono,viajeroFrecuente,direccion));
+        return dao.saveCliente(new Cliente(nombreyApellido,dni,pasaporte,cuit,dateFechaNacimiento,email,telefono,viajeroFrecuente,direccion));
 
 
     }

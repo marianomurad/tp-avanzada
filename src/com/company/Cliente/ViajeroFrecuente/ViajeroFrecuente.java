@@ -1,13 +1,15 @@
 package com.company.Cliente.ViajeroFrecuente;
 
+import com.company.LineaAerea.LineaAerea;
+
 public class ViajeroFrecuente {
 
     String alianza;
-    String aerolinea;
+    LineaAerea aerolinea;
     String numero;
     String categoria;
 
-    public ViajeroFrecuente(String alianza,String aerolinea, String numero,String categoria)
+    public ViajeroFrecuente(String alianza, LineaAerea aerolinea, String numero, String categoria)
     {
         this.setAlianza(alianza);
         this.setAerolinea(aerolinea);
@@ -21,8 +23,8 @@ public class ViajeroFrecuente {
     public void setAlianza(String alianza) { this.alianza = alianza; }
 
     //Aerolinea
-    public String getAerolinea() { return aerolinea; }
-    public void setAerolinea(String aerolinea) { this.aerolinea = aerolinea; }
+    public LineaAerea getAerolinea() { return aerolinea; }
+    public void setAerolinea(LineaAerea aerolinea) { this.aerolinea = aerolinea; }
 
     //Numero
     public String getNumero() { return numero; }

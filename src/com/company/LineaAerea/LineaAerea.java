@@ -7,10 +7,9 @@ public class LineaAerea {
     private String alianza;
     private Vuelo vuelo;
 
-    public LineaAerea( String aerolinea, String alianza, Vuelo vuelo){
+    public LineaAerea( String aerolinea, String alianza){
         this.setAerolinea(aerolinea);
         this.setAlianza(alianza);
-        this.setVuelo(vuelo);
     }
 
     public String getAerolinea() { return nombreAerolinea; }

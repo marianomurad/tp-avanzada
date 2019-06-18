@@ -1,15 +1,19 @@
 package com.company.Cliente.Pasaporte;
 
+import com.company.Cliente.Direccion.Pais.Pais;
+
+import java.util.Date;
+
 public class Pasaporte {
 
     String numPasaporte;
-    String paisEmision;
+    Pais paisEmision;
     String autoridadEmision;
-    String fechaEmision;
-    String fechaVencimiento;
+    Date fechaEmision;
+    Date fechaVencimiento;
 
 
-    public Pasaporte(String numPasaporte, String paisEmision,String autoridad,String emision,String vencimiento)
+    public Pasaporte(String numPasaporte, Pais paisEmision, String autoridad, Date emision, Date vencimiento)
     {
         this.setNumPasaporte(numPasaporte);
         this.setPaisEmision(paisEmision);
@@ -24,19 +28,19 @@ public class Pasaporte {
     public void setNumPasaporte(String numPasaporte) { this.numPasaporte = numPasaporte; }
 
     //Pais de Emision
-    public String getPaisEmision() { return paisEmision; }
-    public void setPaisEmision(String paisEmision) { this.paisEmision = paisEmision; }
+    public Pais getPaisEmision() { return paisEmision; }
+    public void setPaisEmision(Pais paisEmision) { this.paisEmision = paisEmision; }
 
     //Autoridad Emisora
     public String getAutoridadEmision() { return autoridadEmision; }
     public void setAutoridadEmision(String autoridadEmision) { this.autoridadEmision = autoridadEmision; }
 
     //Fecha Emision
-    public String getFechaEmision() { return fechaEmision; }
-    public void setFechaEmision(String fechaEmision) { this.fechaEmision = fechaEmision; }
+    public Date getFechaEmision() { return fechaEmision; }
+    public void setFechaEmision(Date fechaEmision) { this.fechaEmision = fechaEmision; }
 
     //Fecha Vencimiento
-    public String getFechaVencimiento() { return fechaVencimiento; }
-    public void setFechaVencimiento(String fechaVencimiento) { this.fechaVencimiento = fechaVencimiento; }
+    public Date getFechaVencimiento() { return fechaVencimiento; }
+    public void setFechaVencimiento(Date fechaVencimiento) { this.fechaVencimiento = fechaVencimiento; }
 
 }

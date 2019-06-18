@@ -5,23 +5,25 @@ import com.company.Cliente.Pasaporte.Pasaporte;
 import com.company.Cliente.Telefono.Telefono;
 import com.company.Cliente.ViajeroFrecuente.ViajeroFrecuente;
 
+import java.util.Date;
+
 public class Cliente {
 
-    private String nombreyapellido;
+    private String nombreYApellido;
     private String dni;
     private Pasaporte pasaporte;
     private String cuit;
-    private String fechaNac;
+    private Date fechaNac;
     private String email;
     private Telefono telefono;
     private ViajeroFrecuente viajeroFrecuente;
     private Direccion direccion;
 
 
-    public Cliente(String nomyape, String dni, Pasaporte pasaporte, String cuit, String fechaNacimiento,
+    public Cliente(String nombreyapellido, String dni, Pasaporte pasaporte, String cuit, Date fechaNacimiento,
                    String email, Telefono telefono, ViajeroFrecuente numViajeroFrecuente, Direccion direccion)
     {
-        this.setNombreYApellido(nomyape);
+        this.setNombreYApellido(nombreyapellido);
         this.setDni(dni);
         this.setPasaporte(pasaporte);
         this.setCuit(cuit);
@@ -50,8 +52,8 @@ public class Cliente {
     public void setTelefono(Telefono tel) { this.telefono = tel; }
 
     //Nombre Y Apellido
-    public String getNombreYApellido() { return nombreyapellido; }
-    public void setNombreYApellido(String nombreyapellido) { this.nombreyapellido = nombreyapellido; }
+    public String getNombreYApellido() { return nombreYApellido; }
+    public void setNombreYApellido(String nombreyapellido) { this.nombreYApellido = nombreyapellido; }
 
     //DNI
     public String getDni() { return dni; }
@@ -62,8 +64,8 @@ public class Cliente {
     public void setCuit(String cuit) { this.cuit = cuit; }
 
     //Fecha de Nacimiento
-    public String getFechaNac() { return fechaNac; }
-    public void setFechaNac(String fechaNac) { this.fechaNac = fechaNac; }
+    public Date getFechaNac() { return fechaNac; }
+    public void setFechaNac(Date fechaNac) { this.fechaNac = fechaNac; }
 
     //Email
     public String getEmail() { return email; }
