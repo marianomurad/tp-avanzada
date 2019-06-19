@@ -1,12 +1,5 @@
 package com.company.Util.txtPersistance;
 
-import GUI.Panels.LineasAereas.PanelAltaLineasAereas;
-import GUI.Panels.Venta.PanelAltaVenta;
-import GUI.Panels.Vuelos.PanelAltaVuelos;
-import GUI.Panels.Vuelos.PanelBMCVuelos;
-import com.company.Aeropuerto.Aeropuerto;
-import com.company.Aeropuerto.ListaAeropuerto;
-import com.company.Aeropuerto.ListaAeropuertoDAO;
 import com.company.Cliente.Cliente;
 import com.company.Cliente.ClienteDAO;
 import com.company.Cliente.Direccion.Direccion;
@@ -17,8 +10,8 @@ import com.company.Cliente.Telefono.Telefono;
 import com.company.Cliente.ViajeroFrecuente.ViajeroFrecuente;
 import com.company.Factory.FactoryDAO;
 import com.company.LineaAerea.LineaAerea;
-import com.company.OptionsList.OptionsList;
-import com.company.OptionsList.OptionsListDAO;
+import GUI.OptionsList.OptionsList;
+import GUI.OptionsList.OptionsListDAO;
 import GUI.Panels.Cliente.PanelAltaCliente;
 import com.company.Venta.Venta;
 import com.company.Venta.VentaDAO;

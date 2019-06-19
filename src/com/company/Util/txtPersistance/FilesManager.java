@@ -10,7 +10,7 @@ import com.company.Cliente.Pasaporte.Pasaporte;
 import com.company.Cliente.Telefono.Telefono;
 import com.company.Cliente.ViajeroFrecuente.ViajeroFrecuente;
 import com.company.LineaAerea.LineaAerea;
-import com.company.OptionsList.OptionsList;
+import GUI.OptionsList.OptionsList;
 import com.company.Venta.Venta;
 import com.company.Vuelo.Vuelo;
 
