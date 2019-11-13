@@ -1,6 +1,5 @@
-package com.company.OptionsList;
+package com.company.GUI.OptionsList;
 
-import com.company.GUI.OptionsList.OptionsList;
 import com.company.Util.txtPersistance.FilesManager;
 
 public class OptionsListDAOFileImplementation implements OptionsListDAO {

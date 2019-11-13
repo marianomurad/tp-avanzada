@@ -4,8 +4,8 @@ import com.company.Aeropuerto.ListaAeropuertoDAO;
 import com.company.Aeropuerto.ListaAeropuertoDAOFileImplementation;
 import com.company.Cliente.ClienteDAO;
 import com.company.Cliente.ClienteDAOFileImplementation;
-import GUI.OptionsList.OptionsListDAO;
-import GUI.OptionsList.OptionsListDAOFileImplementation;
+import com.company.GUI.OptionsList.OptionsListDAO;
+import com.company.GUI.OptionsList.OptionsListDAOFileImplementation;
 import com.company.Venta.VentaDAO;
 import com.company.Venta.VentaDAOFileImplementation;
 

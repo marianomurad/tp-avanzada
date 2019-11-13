@@ -9,8 +9,8 @@ import com.company.Cliente.Direccion.Provincia.Provincia;
 import com.company.Cliente.Pasaporte.Pasaporte;
 import com.company.Cliente.Telefono.Telefono;
 import com.company.Cliente.ViajeroFrecuente.ViajeroFrecuente;
+import com.company.GUI.OptionsList.OptionsList;
 import com.company.LineaAerea.LineaAerea;
-import GUI.OptionsList.OptionsList;
 import com.company.Venta.Venta;
 import com.company.Vuelo.Vuelo;
 

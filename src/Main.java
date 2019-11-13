@@ -1,5 +1,3 @@
-import GUI.App.App;
-import com.apple.eio.FileManager;
 import com.company.Aeropuerto.Aeropuerto;
 import com.company.Cliente.Cliente;
 import com.company.Cliente.Direccion.Direccion;
@@ -8,6 +6,7 @@ import com.company.Cliente.Direccion.Provincia.Provincia;
 import com.company.Cliente.Pasaporte.Pasaporte;
 import com.company.Cliente.Telefono.Telefono;
 import com.company.Cliente.ViajeroFrecuente.ViajeroFrecuente;
+import com.company.GUI.App.App;
 import com.company.LineaAerea.LineaAerea;
 import com.company.Util.txtPersistance.FilesManager;
 import com.company.Venta.Venta;

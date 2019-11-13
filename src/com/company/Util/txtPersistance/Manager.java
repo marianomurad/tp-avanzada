@@ -9,10 +9,11 @@ import com.company.Cliente.Pasaporte.Pasaporte;
 import com.company.Cliente.Telefono.Telefono;
 import com.company.Cliente.ViajeroFrecuente.ViajeroFrecuente;
 import com.company.Factory.FactoryDAO;
+import com.company.GUI.OptionsList.OptionsList;
+import com.company.GUI.OptionsList.OptionsListDAO;
+import com.company.GUI.Panels.Cliente.PanelAltaCliente;
 import com.company.LineaAerea.LineaAerea;
-import GUI.OptionsList.OptionsList;
-import GUI.OptionsList.OptionsListDAO;
-import GUI.Panels.Cliente.PanelAltaCliente;
+
 import com.company.Venta.Venta;
 import com.company.Venta.VentaDAO;
 
